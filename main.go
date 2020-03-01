@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"main/config"
+	"main/model"
 	"main/router"
 	"net/http"
 	"time"
@@ -24,6 +25,10 @@ func main() {
 	if err := config.Init(*cfg); err != nil {
 		panic(err)
 	}
+
+	// init db
+	model.DB.Init()
+	defer model.DB.Close()
 
 	// Set gin mode.
 	gin.SetMode(viper.GetString("runmode"))
