@@ -5,6 +5,7 @@ import (
 	"main/config"
 	"main/model"
 	"main/router"
+	"main/router/middleware"
 	"net/http"
 	"time"
 
@@ -36,15 +37,14 @@ func main() {
 	// Create the Gin engine.
 	g := gin.New()
 
-	middlewares := []gin.HandlerFunc{}
-
 	// Routes.
 	router.Load(
 		// Cores.
 		g,
 
 		// Middlwares.
-		middlewares...,
+		middleware.Logging(),
+		middleware.RequestId(),
 	)
 
 	// Ping the server to make sure the router is working.
